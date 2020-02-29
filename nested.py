@@ -10,18 +10,19 @@ import sys
 # openers = {"(", "[", "{", "<", "*"}
 # closers = {")", "]", "}", ">", "*"}
 
-bracket_dict = {
-    ")" : "(",
-    "]" : "[",
-    "}" : "{",
-    ">" : "<",
-    "*)" : "(*",
+tokens_dict = {
+    ")": "(",
+    "]": "[",
+    "}": "{",
+    ">": "<",
+    "*)": "(*",
 }
+
 
 def is_nested(line):
     """Validate a single input line for correct nesting"""
     stack = []
-    counter = 0
+    token_counter = 0
     while line:
         # figure out what my token is this time thru the loop
         token = line[0]
@@ -37,18 +38,18 @@ def is_nested(line):
             stack.append(token)
         elif token in tokens_dict.keys():
             # closer_index = closrs.index(token)
-            expected_opener = tokens_dict(token)
+            expected_opener = tokens_dict[token]
             if stack.pop() != expected_opener:
                 return "NO " + str(token_counter)
-
 # while loop has new exited
 # check if there is anything left on the stack
-if stack:
-    # we haev junk left over, this is bad
-    return "NO " + str(token_counter)
+    if stack:
+        # we haev junk left over, this is bad
+        return "NO " + str(token_counter)
 
-# If we make it here, all is GOOD
-return "YES "
+    # If we make it here, all is GOOD
+    return "YES "
+
 
 def main(args):
     """Open the input file and call `is_nested()` for each line"""
